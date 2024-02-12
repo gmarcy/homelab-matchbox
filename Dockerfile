@@ -27,11 +27,11 @@ RUN set -x && \
 
 COPY --chown=${USER}:0 assets/ ./assets/
 COPY --chown=${USER}:0 generic/ ./generic/
-COPY --chown=${USER}:0 inventory.yaml playbook.yaml .
+COPY --chown=${USER}:0 playbook.yaml .
 
 LABEL ansible-automation.description="resources and ansible playbook to initialize matchbox data volume"
 LABEL ansible-automation.maintainer="Glenn Marcy <homelab-admin@gmarcy.com>"
 
 VOLUME /var/lib/matchbox
 
-ENTRYPOINT ["ansible-playbook", "-i", "inventory.yaml", "playbook.yaml"]
+ENTRYPOINT ["ansible-playbook", "playbook.yaml"]
