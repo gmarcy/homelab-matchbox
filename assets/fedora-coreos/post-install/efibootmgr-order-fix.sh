@@ -67,16 +67,21 @@ else
 
   efibootmgr --delete-bootnum --bootnum 00FF
 
-  BOOT_FIRST=$(efibootmgr | sed -n -e 's/^Boot\(000[0-9A-F]\)\* Fedora.*/\1/p')
+  BOOT_FIRST=$(efibootmgr | sed -n -e 's/^Boot\(000[0-9A-F]\)\* Fedora.*/\1,/p')
   if [ "${BOOT_FIRST}" ]; then
     BOOT_CURRENT=$(efibootmgr | sed -n -e 's/^BootCurrent: \(.*\)/\1,/p')
     BOOT_ORDER=$(efibootmgr | sed -n -e 's/^BootOrder: \(.*\)/\1/p')
 
     efibootmgr --bootorder ${BOOT_FIRST}${BOOT_CURRENT}${BOOT_ORDER} --remove-dups
+
+    sleep 10
+
+    exit 0
+  else
+
+    sleep 10
+
+    exit 1
   fi
-
-  sleep 10
-
-  exit 0
 
 fi
